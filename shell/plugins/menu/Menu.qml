@@ -1224,6 +1224,12 @@ Item {
             anchors.right: parent.right
             anchors.verticalCenter: parent.verticalCenter
             focus: true
+            // Composed text arrives as an InputMethodEvent, not a key event,
+            // so keyCatcher's modal swallow never sees it. A read-only field
+            // rejects those events and tells the IME it is not a target while
+            // the delete confirmation is open. Latin keys are already swallowed
+            // above.
+            readOnly: root.deleteConfirmOpen
             Keys.priority: Keys.BeforeItem
             Keys.forwardTo: [keyCatcher]
             color: root.foreground
